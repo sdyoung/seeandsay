@@ -2,8 +2,6 @@
 # This will generate the seeandsay riddle.
 import argparse
 
-START = "1121"
-
 def generate(existing):
 	current_value = existing[0]
 	counter = 0
