@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # This will generate the seeandsay riddle.
+import argparse
 
 START = "1121"
 
@@ -9,18 +10,30 @@ def generate(existing):
 	return_value = ""
 	
 	for i in existing:
-		print("i is %s, current value is %s, counter is %s" % (i, current_value, counter))
 		if i == current_value:
 			counter += 1
 		else:
-			print("adding to value")
 			return_value += str(counter) + str(current_value)
 			current_value = i
 			counter = 1
 	return(return_value)
 
-r = START
+def generate_pattern(start, iterations):
+	result = start
+	for j in range(0, iterations):
+		result += generate(result)
 
-for j in range(1,10):
-	r += generate(r)
-	print(r)
+	return(result)
+
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser(
+		description='Create the speak-and-say riddle.')
+	parser.add_argument('--start', type=str,
+		help='The start of the sequence', default="1121")
+	parser.add_argument('--iterations', type=int, default=10,
+		help='Number of iterations')
+
+	args = parser.parse_args()
+
+	result = generate_pattern(args.start, args.iterations)
+	print(result)
